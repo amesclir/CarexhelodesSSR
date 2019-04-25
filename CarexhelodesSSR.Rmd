@@ -18,13 +18,14 @@ mydata2 <- missingno(mydata, type = "genotype", cutoff = 0.60, quiet = FALSE, fr
 mydata3 <- missingno(mydata, type = "genotype", cutoff = 0, quiet = FALSE, freq = FALSE)
 
 mytree <- aboot(mydata2, tree = "nj", distance = "nei.dist", sample = 1000, 
-                cutoff = 50, showtree = TRUE, missing = "mean", mcutoff = 0, 
+                cutoff = 50, showtree = TRUE, missing = "mean", mcutoff = 0.6, 
                 quiet = FALSE, root = NULL)
 
 library(phytools)
+mytree$node.label[is.na(mytree$node.label)] <- 0
 mytree <- midpoint.root(mytree)
 
-plot(mytree, type = "phylogram", use.edge.length = TRUE,
+plot(mytree_bis, type = "phylogram", use.edge.length = TRUE,
      node.pos = NULL, show.tip.label = TRUE, show.node.label = T,
      edge.color = "black", edge.width = 1, edge.lty = 1, font = 0.3,
      cex = 0.4, adj = NULL, srt = 0, no.margin = FALSE,
@@ -32,13 +33,15 @@ plot(mytree, type = "phylogram", use.edge.length = TRUE,
      x.lim = NULL, y.lim = NULL, direction = "rightwards",
      lab4ut = "horizontal", tip.color = "black")
 
+test_replen(mydata2, c(4, 6, 6, 3, 4, 3, 2, 3, 3, 2, 3, 3, 6, 2, 3, 2, 3, 2, 2, 2, 2, 2, 2, 2, 4, 6, 2, 2, 2, 2, 2, 2, 2, 2))
+new_replen <- fix_replen(mydata2, c(4, 6, 6, 3, 4, 3, 2, 3, 3, 2, 3, 3, 6, 2, 3, 2, 3, 2, 2, 2, 2, 2, 2, 2, 4, 6, 2, 2, 2, 2, 2, 2, 2, 2))
 
-mytree2 <- bruvo.boot(mydata2, replen = c(4, 6, 6, 3, 4, 3, 2, 3, 3, 2, 3, 3, 6, 2, 3, 2, 3, 2, 2, 2, 2, 2, 2, 2, 4, 6, 2, 2, 2, 2, 2, 2, 2, 2) , add = TRUE, loss = TRUE, sample = 1000, 
+mytree2 <- bruvo.boot(mydata2, replen = new_replen , add = TRUE, loss = TRUE, sample = 1000, 
            tree = "nj", showtree = TRUE, cutoff = NULL, quiet = FALSE,
            root = NULL)
 
 mytree2 <- midpoint.root(mytree2)
-mytree2$node.label[mytree2$node.label<50] <- NA
+mytree2$node.label[mytree2$node.label < 50 ] <- ""
 
 plot(mytree2, type = "phylogram", use.edge.length = TRUE,
      node.pos = NULL, show.tip.label = TRUE, show.node.label = TRUE,
@@ -51,17 +54,16 @@ plot(mytree2, type = "phylogram", use.edge.length = TRUE,
 bruvo.msn.mydata <- bruvo.msn(mydata2, replen = c(4, 6, 6, 3, 4, 3, 2, 3, 3, 2, 3, 3, 6, 2, 3, 2, 3, 2, 2, 2, 2, 2, 2, 2, 4, 6, 2, 2, 2, 2, 2, 2, 2, 2), add = TRUE, loss = TRUE,
   mlg.compute = "original", palette = topo.colors, sublist = "All",
   blacklist = NULL, vertex.label = "MLG", gscale = TRUE,
-  glim = c(0, 0.8), gadj = 3, gweight = 1, wscale = TRUE,
+  glim = c(0, 0.8), gadj = 15, gweight = 2, wscale = TRUE,
   showplot = TRUE, include.ties = FALSE, threshold = NULL,
   clustering.algorithm = NULL)
 
-plot_poppr_msn(mydata2, bruvo.msn.mydata, gscale = T, gadj = 3,
+plot_poppr_msn(mydata2, bruvo.msn.mydata, gscale = T, gadj = 15,
                mlg.compute = "original", glim = c(0, 0.8), gweight = 1,
-               wscale = F, nodelab = 2, inds = "",
+               wscale = T, nodelab = 2, inds = "",
                mlg = F, quantiles = TRUE, cutoff = NULL, palette = NULL, beforecut = FALSE, pop.leg = TRUE,
                scale.leg = TRUE)
 
-plot_poppr_msn(mydata2, bruvo.msn.mydata, gadj = 15, inds = "")
 
 plot_poppr_msn(mydata2, bruvo.msn.mydata, gadj = 15, inds = "none", beforecut = T, cutoff = 0.5)
 
