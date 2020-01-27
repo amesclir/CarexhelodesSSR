@@ -77,3 +77,36 @@ locus_table(mydata2)
 
 ```
 
+
+Making maps!
+
+```{r}
+devtools::install_github("dkahle/ggmap") 
+library(ggmap)
+register_google(key = "YOUR_API_KEY")
+
+mydatamapa <- read.csv("mydata2.csv")
+
+Madronalejo <- get_stamenmap(bbox = c(left = min(mydatamapa$lon)- 0.0001, bottom = min(mydatamapa$lat)- 0.0001, right = max(mydatamapa$lon) + 0.0001 , top = max(mydatamapa$lat)+ 0.0001), zoom = 10, maptype = c("terrain",
+  "terrain-background", "terrain-labels", "terrain-lines", "toner",
+  "toner-2010", "toner-2011", "toner-background", "toner-hybrid",
+  "toner-labels", "toner-lines", "toner-lite", "watercolor"),
+  crop = TRUE, messaging = FALSE, urlonly = FALSE,
+  color = c("color", "bw"), force = FALSE, where = tempdir())
+
+p <- ggmap(Madronalejo, extent = "panel", maprange = FALSE,
+  legend = "right", padding = 0.02, darken = c(0, "black"), maptype = "terrain", scale = 2)
+p + geom_point(data=mydatamapa[mydatamapa$Colour == "white",], aes(x=lon, y=lat), color="white", size=1, alpha=0.5) + geom_point(data=mydatamapa[mydatamapa$Colour == "blue",], aes(x=lon, y=lat), color="blue", size=1, alpha=0.5) + geom_point(data=mydatamapa[mydatamapa$Colour == "yellow",], aes(x=lon, y=lat), color="yellow", size=1) + geom_point(data=mydatamapa[mydatamapa$Colour == "orange",], aes(x=lon, y=lat), color="orange", size=1, alpha=0.5) + geom_point(data=mydatamapa[mydatamapa$Colour == "red",], aes(x=lon, y=lat), color="red", size=1) + geom_point(data=mydatamapa[mydatamapa$Colour == "grey",], aes(x=lon, y=lat), color="pink", size=1) + geom_point(data=mydatamapa[mydatamapa$Colour == "black",], aes(x=lon, y=lat), color="purple", size=1) + scale_color_manual(values = c("unknown" = "white", "2n = 68" = "yellow",  "2n = 68*" = "orange", "2n = 60*" = "red",  "2n = 70" = "blue", "2n = 70*" = "pink", "2n = 72" =  "purple")) + theme(legend.position = "right")
+
+plot.new()
+legend(1, legend=c("unknown", "2n = 68", "2n = 68*", "2n = 69*", "2n = 70", "2n = 70*", "2n = 72"), col=c("white", "yellow", "orange", "red", "blue", "pink", "purple"))
+
+
+Madronalejo <- get_map(bbox = c(left = min(mydatamapa$lon)+ 0.0001, bottom = min(mydatamapa$lat)+ 0.0001, right = max(mydatamapa$lon) + 0.0001 , top = max(mydatamapa$lat)+ 0.0001),
+  zoom = "auto", scale = "auto", maptype = "satellite", source = c("google", "osm", "stamen"),
+  force = ifelse(source == "google", TRUE, FALSE), messaging = FALSE,
+  urlonly = FALSE, filename = NULL, crop = TRUE, color = c("color",
+  "bw"), language = "en-EN")
+
+```
+
