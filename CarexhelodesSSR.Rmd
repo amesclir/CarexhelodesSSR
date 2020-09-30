@@ -27,7 +27,11 @@ mytree <- midpoint.root(mytree)
 
 pdffn = paste0("nei_NJ.pdf")
 pdf(file=pdffn, width=8, height=15)
+<<<<<<< HEAD
 plot(mytree, type = "phylogram", use.edge.length = TRUE,
+=======
+plot(mytree_bis, type = "phylogram", use.edge.length = TRUE,
+>>>>>>> 4e25c7b154c37b2b9500f55909aa3d708eac921a
      node.pos = NULL, show.tip.label = TRUE, show.node.label = T,
      edge.color = "black", edge.width = 1, edge.lty = 1, font = 0.3,
      cex = 0.4, adj = NULL, srt = 0, no.margin = FALSE,
@@ -65,7 +69,11 @@ bruvo.msn.mydata <- bruvo.msn(mydata2, replen = new_replen, add = TRUE, loss = T
   clustering.algorithm = NULL)
 
 pdffn = paste0("Bruvo_NET.pdf")
+<<<<<<< HEAD
 pdf(file=pdffn, width=8, height=8)
+=======
+pdf(file=pdffn, width=15, height=15)
+>>>>>>> 4e25c7b154c37b2b9500f55909aa3d708eac921a
 plot_poppr_msn(mydata2, bruvo.msn.mydata, gscale = T, gadj = 15,
                mlg.compute = "original", glim = c(0, 0.8), gweight = 1,
                wscale = T, nodelab = 2, inds = "",
@@ -73,6 +81,7 @@ plot_poppr_msn(mydata2, bruvo.msn.mydata, gscale = T, gadj = 15,
                scale.leg = TRUE)
 dev.off()
 
+<<<<<<< HEAD
 pdffn = paste0("Bruvo_NET2.pdf")
 pdf(file=pdffn, width=8, height=8)
 plot_poppr_msn(mydata2, bruvo.msn.mydata, gadj = 15, inds = "none", beforecut = T, cutoff = 0.5)
@@ -80,10 +89,17 @@ dev.off()
 
 write.table (private_alleles(mydata2, form = alleles ~ ., report = "table",
 level = "population", count.alleles = TRUE, drop = FALSE), file = "private.alleles.txt")
+=======
+pdffn = paste0("Bruvo_NJ2.pdf")
+pdf(file=pdffn, width=15, height=15)
+plot_poppr_msn(mydata2, bruvo.msn.mydata, gadj = 15, inds = "none", beforecut = T, cutoff = 0.5)
+dev.off()
+>>>>>>> 4e25c7b154c37b2b9500f55909aa3d708eac921a
 
 write.table (poppr(mydata2), file = "diversityindices.txt")
 write.table(locus_table(mydata2), file = "locitable.txt")
 
+<<<<<<< HEAD
 mean(summary(popsub(mydata2, "CHE1"))$Hobs)
 mean(summary(popsub(mydata2, "CHE2"))$Hobs)
 mean(summary(popsub(mydata2, "COR"))$Hobs)
@@ -91,6 +107,10 @@ mean(summary(popsub(mydata2, "MON"))$Hobs)
 mean(summary(popsub(mydata2, "GUI"))$Hobs)
 mean(summary(popsub(mydata2, "AZN1"))$Hobs)
 mean(summary(popsub(mydata2, "AZN2"))$Hobs)
+=======
+write.table (poppr(mydata2), file = "diversityindices.txt")
+write.table(locus_table(mydata2), file = "locitable.txt")
+>>>>>>> 4e25c7b154c37b2b9500f55909aa3d708eac921a
 
 
 ```
